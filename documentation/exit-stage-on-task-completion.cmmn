@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<cmmn:definitions xmlns:dc="http://www.omg.org/spec/CMMN/20151109/DC" xmlns:di="http://www.omg.org/spec/CMMN/20151109/DI" xmlns:cmmndi="http://www.omg.org/spec/CMMN/20151109/CMMNDI" xmlns:cmmn="http://www.omg.org/spec/CMMN/20151109/MODEL" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" id="Test" targetNamespace="http://bpmn.io/schema/cmmn" exporter="Camunda Modeler" exporterVersion="1.9.0">
+  <cmmn:case id="Case_1">
+    <cmmn:casePlanModel id="CasePlanModel_1" name="Won&#39;t work">
+      <cmmn:planItem id="PlanItem_0veozmp" definitionRef="Stage_1qxhxrb">
+        <cmmn:exitCriterion id="ExitCriterion_1gzxc4v" sentryRef="Sentry_12mac4i" />
+      </cmmn:planItem>
+      <cmmn:sentry id="Sentry_12mac4i">
+        <cmmn:planItemOnPart id="PlanItemOnPart_1qs5l1t" sourceRef="PlanItem_1iibpky">        <cmmn:standardEvent>complete</cmmn:standardEvent>
+</cmmn:planItemOnPart>
+      </cmmn:sentry>
+      <cmmn:stage id="Stage_1qxhxrb" name="A stage">
+        <cmmn:planItem id="PlanItem_1" definitionRef="HumanTask_0pm1hup" />
+        <cmmn:planItem id="PlanItem_1iibpky" definitionRef="HumanTask_18cffng">
+          <cmmn:itemControl id="PlanItemControl_1iuuw08">
+            <cmmn:manualActivationRule id="ManualActivationRule_19tpsr8" />
+          </cmmn:itemControl>
+        </cmmn:planItem>
+        <cmmn:humanTask id="HumanTask_0pm1hup" name="Do always" />
+        <cmmn:humanTask id="HumanTask_18cffng" name="Finish on demand" />
+      </cmmn:stage>
+    </cmmn:casePlanModel>
+  </cmmn:case>
+  <cmmndi:CMMNDI>
+    <cmmndi:CMMNDiagram id="_5a66685b-5f57-4e2f-b1d1-acca4fae04b2">
+      <cmmndi:Size xsi:type="dc:Dimension" width="500" height="500" />
+      <cmmndi:CMMNShape id="DI_CasePlanModel_1" cmmnElementRef="CasePlanModel_1">
+        <dc:Bounds x="113" y="63" width="420" height="274" />
+        <cmmndi:CMMNLabel />
+      </cmmndi:CMMNShape>
+      <cmmndi:CMMNShape id="PlanItem_0veozmp_di" cmmnElementRef="PlanItem_0veozmp">
+        <dc:Bounds x="133" y="94" width="350" height="200" />
+        <cmmndi:CMMNLabel />
+      </cmmndi:CMMNShape>
+      <cmmndi:CMMNShape id="PlanItem_1nokbkd_di" cmmnElementRef="PlanItem_1">
+        <dc:Bounds x="169" y="147" width="100" height="80" />
+        <cmmndi:CMMNLabel />
+      </cmmndi:CMMNShape>
+      <cmmndi:CMMNShape id="PlanItem_0jfa4up_di" cmmnElementRef="PlanItem_1iibpky">
+        <dc:Bounds x="307" y="147" width="100" height="80" />
+        <cmmndi:CMMNLabel />
+      </cmmndi:CMMNShape>
+      <cmmndi:CMMNShape id="ExitCriterion_1gzxc4v_di" cmmnElementRef="ExitCriterion_1gzxc4v">
+        <dc:Bounds x="473" y="173" width="20" height="28" />
+        <cmmndi:CMMNLabel />
+      </cmmndi:CMMNShape>
+      <cmmndi:CMMNEdge id="PlanItemOnPart_1qs5l1t_di" cmmnElementRef="PlanItemOnPart_1qs5l1t" targetCMMNElementRef="ExitCriterion_1gzxc4v" isStandardEventVisible="true">
+        <di:waypoint xsi:type="dc:Point" x="407" y="187" />
+        <di:waypoint xsi:type="dc:Point" x="473" y="187" />
+        <cmmndi:CMMNLabel>
+          <dc:Bounds x="417" y="192" width="50" height="12" />
+        </cmmndi:CMMNLabel>
+      </cmmndi:CMMNEdge>
+    </cmmndi:CMMNDiagram>
+  </cmmndi:CMMNDI>
+</cmmn:definitions>
