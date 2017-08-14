@@ -50,7 +50,11 @@
             <cmmn:manualActivationRule id="ManualActivationRule_18wbrpo" />
           </cmmn:itemControl>
         </cmmn:planItem>
-        <cmmn:humanTask id="HumanTask_0840owl" name="Fulfill first task" camunda:formKey="embedded:app:forms/simple-form.html" />
+        <cmmn:humanTask id="HumanTask_0840owl" name="Fulfill first task" camunda:formKey="embedded:app:forms/simple-form.html">
+          <cmmn:extensionElements>
+            <camunda:caseExecutionListener event="create" class="com.camunda.consulting.bpmn_cmmn_example.SetVariableExecutionListener" />
+          </cmmn:extensionElements>
+        </cmmn:humanTask>
         <cmmn:humanTask id="HumanTask_0fehc8v" name="Manual activate this">
           <cmmn:extensionElements>
             <camunda:taskListener event="complete" class="com.camunda.consulting.bpmn_cmmn_example.CompleteStageListener" />
