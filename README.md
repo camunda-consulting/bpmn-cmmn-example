@@ -48,7 +48,7 @@ ${caseExecution.hasVariable("customerValueChanged")}
     <cmmn:condition id="Expression_1"><![CDATA[${caseExecution.hasVariable("customerValueChanged") && customerValueBean.isValueHighEnough()}]]></cmmn:condition>
 </cmmn:ifPart>
 ```
-The activation of the Condition activate task may look like this:
+The activation of the Conditional activate task may look like this:
 ```
 customerValueBean.setCustomerValue(1001);
 caseService().setVariable(caseInstance.getCaseInstanceId(), "customerValueChanged", true);
