@@ -31,7 +31,7 @@ See [https://app.camunda.com/jira/browse/CAM-6087](https://app.camunda.com/jira/
 Workarounds: 
 	- Mark the stage with autoComplete.
 	- Terminate the other tasks with a task listener on `complete` event. See [CompleteStageListener.java](src/main/java/com/camunda/consulting/bpmn_cmmn_example/CompleteStageListener.java) for details. 
-This task listener isn't able to terminate available tasks directly, they have to be in the state `active`. This is the error message:
+This task listener isn't able to terminate available tasks (the ones with entry criterion) directly, they have to be in the state `active`. This is the error message:
 ```
 ENGINE-05011 Could not perform transition 'terminate on case execution with id '419'.Reason: The case execution must be in state 'active' to terminate, but it was in state 'available'
 ```
