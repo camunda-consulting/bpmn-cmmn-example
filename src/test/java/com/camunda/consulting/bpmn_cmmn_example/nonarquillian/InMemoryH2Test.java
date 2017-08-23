@@ -6,12 +6,15 @@ import org.camunda.bpm.engine.runtime.CaseExecution;
 import org.camunda.bpm.engine.runtime.CaseInstance;
 import org.camunda.bpm.engine.runtime.ProcessInstance;
 import org.camunda.bpm.engine.test.ProcessEngineRule;
+import org.camunda.bpm.engine.test.mock.Mocks;
 import org.camunda.bpm.engine.test.Deployment;
 import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+
+import com.camunda.consulting.bpmn_cmmn_example.CustomerValueBean;
 
 import static org.camunda.bpm.engine.test.assertions.ProcessEngineTests.*;
 import static org.junit.Assert.*;
@@ -112,6 +115,7 @@ public class InMemoryH2Test {
     caseService().manuallyStartCaseExecution(manualActivateHumanTask.getId());
     assertThat(caseExecution("manualActivateHumanTask", caseInstance)).isActive();
     complete(caseExecution("fulfillFirstHumanTask", caseInstance));
+    logStateOfAllElements(caseInstance);
     complete(manualActivateHumanTask, withVariables("initSuccessful", true));
     logStateOfAllElements(caseInstance);
     logCaseHistory(caseInstance);
@@ -130,6 +134,45 @@ public class InMemoryH2Test {
     complete(caseExecution("fulfillFirstHumanTask", caseInstance), withVariables("initSuccessful", true));
     complete(caseExecution("initialStage", caseInstance));
     assertThat(caseExecution("repeatThisHumanTask", caseInstance)).isActive();
+  }
+  
+  @Test
+  @Deployment(resources = "exampleCase.cmmn")
+  public void testEntryCriterionCustomerValueBigEnough() {
+    CustomerValueBean customerValueBean = new CustomerValueBean();
+    Mocks.register("customerValueBean", customerValueBean);
+    CaseInstance caseInstance = caseService().createCaseInstanceByKey("ExampleCase");
+    completeFirstStageSuccessful(caseInstance);
+    
+    assertThat(caseExecution("conditionalActivateHumanTask", caseInstance)).isAvailable();
+    
+    customerValueBean.setCustomerValue(1001);
+    caseService().setVariable(caseInstance.getCaseInstanceId(), "customerValueChanged", true);
+    
+    assertThat(caseExecution("conditionalActivateHumanTask", caseInstance)).isActive();
+  }
+
+  @Test
+  @Deployment(resources = "exampleCase.cmmn")
+  public void testEntryCriterionCustomerValueSet() {
+    CustomerValueBean customerValueBean = new CustomerValueBean();
+    Mocks.register("customerValueBean", customerValueBean);
+    CaseInstance caseInstance = caseService().createCaseInstanceByKey("ExampleCase");
+    completeFirstStageSuccessful(caseInstance);
+
+    customerValueBean.setCustomerValue(20);
+    caseService().setVariable(caseInstance.getCaseInstanceId(), "customerValueChanged", true);    
+    assertThat(caseExecution("conditionalActivateHumanTask", caseInstance)).isAvailable();
+    
+    customerValueBean.setCustomerValue(1001);
+    caseService().setVariable(caseInstance.getCaseInstanceId(), "customerValueChanged", true);
+    
+    assertThat(caseExecution("conditionalActivateHumanTask", caseInstance)).isActive();
+  }
+
+  private void completeFirstStageSuccessful(CaseInstance caseInstance) {
+    complete(caseExecution("fulfillFirstHumanTask", caseInstance), withVariables("initSuccessful", true));
+    complete(caseExecution("initialStage", caseInstance));
   }
 
   private void logStateOfAllElements(CaseInstance caseInstance) {

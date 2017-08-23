@@ -69,7 +69,18 @@
             </cmmn:repetitionRule>
           </cmmn:itemControl>
         </cmmn:planItem>
+        <cmmn:planItem id="conditionalActivateHumanTask" definitionRef="HumanTask_15c43xf">
+          <cmmn:entryCriterion id="EntryCriterion_1nu7tbl" sentryRef="Sentry_116jfs5" />
+        </cmmn:planItem>
+        <cmmn:sentry id="Sentry_116jfs5">
+          <cmmn:ifPart id="IfPart_1">
+            <cmmn:condition id="Expression_1"><![CDATA[${caseExecution.hasVariable("customerValueChanged") && customerValueBean.isValueHighEnough()}]]></cmmn:condition>
+          </cmmn:ifPart>
+        </cmmn:sentry>
         <cmmn:humanTask id="HumanTask_0xt8ob4" name="Do this until oder value is &#62; 100" />
+        <cmmn:humanTask id="HumanTask_15c43xf" name="Conditional activate" camunda:candidateGroups="management">
+          <cmmn:extensionElements />
+        </cmmn:humanTask>
       </cmmn:stage>
       <cmmn:milestone id="Milestone_01wjfui" name="Initiation completed" />
       <cmmn:milestone id="Milestone_0rn5ioh" name="Initiation failed" />
@@ -87,11 +98,11 @@ caseExecution.setVariable("caseSuccessful", true);]]></camunda:script>
     <cmmndi:CMMNDiagram id="_5a66685b-5f57-4e2f-b1d1-acca4fae04b2">
       <cmmndi:Size xsi:type="dc:Dimension" width="500" height="500" />
       <cmmndi:CMMNShape id="DI_CasePlanModel_1" cmmnElementRef="CasePlanModel_1">
-        <dc:Bounds x="114" y="63" width="898" height="389" />
+        <dc:Bounds x="114" y="63" width="898" height="404" />
         <cmmndi:CMMNLabel />
       </cmmndi:CMMNShape>
       <cmmndi:CMMNShape id="PlanItem_0pqaw40_di" cmmnElementRef="initialStage">
-        <dc:Bounds x="147" y="105" width="201" height="273" />
+        <dc:Bounds x="147" y="105" width="201" height="288" />
         <cmmndi:CMMNLabel />
       </cmmndi:CMMNShape>
       <cmmndi:CMMNShape id="PlanItem_1t8v98d_di" cmmnElementRef="fulfillFirstHumanTask">
@@ -103,7 +114,7 @@ caseExecution.setVariable("caseSuccessful", true);]]></camunda:script>
         <cmmndi:CMMNLabel />
       </cmmndi:CMMNShape>
       <cmmndi:CMMNShape id="PlanItem_0pmhiwr_di" cmmnElementRef="PlanItem_0pmhiwr">
-        <dc:Bounds x="580" y="101" width="178" height="283" />
+        <dc:Bounds x="580" y="101" width="178" height="298" />
         <cmmndi:CMMNLabel />
       </cmmndi:CMMNShape>
       <cmmndi:CMMNShape id="PlanItem_13w3sk5_di" cmmnElementRef="PlanItem_13w3sk5">
@@ -115,34 +126,37 @@ caseExecution.setVariable("caseSuccessful", true);]]></camunda:script>
         <cmmndi:CMMNLabel />
       </cmmndi:CMMNShape>
       <cmmndi:CMMNEdge id="PlanItemOnPart_1i5o90m_di" cmmnElementRef="PlanItemOnPart_1i5o90m" targetCMMNElementRef="EntryCriterion_02cf2iv" isStandardEventVisible="true">
-        <di:waypoint xsi:type="dc:Point" x="348" y="198" />
+        <di:waypoint xsi:type="dc:Point" x="349" y="198" />
         <di:waypoint xsi:type="dc:Point" x="406" y="198" />
         <cmmndi:CMMNLabel>
-          <dc:Bounds x="354" y="201.5" width="50" height="12" />
+          <dc:Bounds x="357" y="211" width="50" height="12" />
         </cmmndi:CMMNLabel>
       </cmmndi:CMMNEdge>
       <cmmndi:CMMNShape id="PlanItem_1cst0lf_di" cmmnElementRef="PlanItem_1cst0lf">
-        <dc:Bounds x="416" y="266" width="100" height="40" />
+        <dc:Bounds x="416" y="337" width="100" height="40" />
         <cmmndi:CMMNLabel />
       </cmmndi:CMMNShape>
       <cmmndi:CMMNShape id="EntryCriterion_0r3cjvl_di" cmmnElementRef="EntryCriterion_0r3cjvl">
-        <dc:Bounds x="406" y="272" width="20" height="28" />
+        <dc:Bounds x="406" y="343" width="20" height="28" />
         <cmmndi:CMMNLabel />
       </cmmndi:CMMNShape>
       <cmmndi:CMMNEdge id="PlanItemOnPart_1vxl4wh_di" cmmnElementRef="PlanItemOnPart_1vxl4wh" targetCMMNElementRef="EntryCriterion_0r3cjvl" isStandardEventVisible="true">
-        <di:waypoint xsi:type="dc:Point" x="348" y="286" />
-        <di:waypoint xsi:type="dc:Point" x="406" y="286" />
+        <di:waypoint xsi:type="dc:Point" x="349" y="357" />
+        <di:waypoint xsi:type="dc:Point" x="349" y="357" />
+        <di:waypoint xsi:type="dc:Point" x="406" y="357" />
         <cmmndi:CMMNLabel>
-          <dc:Bounds x="351" y="288" width="50" height="12" />
+          <dc:Bounds x="354" y="360" width="50" height="12" />
         </cmmndi:CMMNLabel>
       </cmmndi:CMMNEdge>
       <cmmndi:CMMNShape id="EntryCriterion_1chyu4l_di" cmmnElementRef="EntryCriterion_1chyu4l">
-        <dc:Bounds x="570" y="185" width="20" height="28" />
+        <dc:Bounds x="570" y="186" width="20" height="28" />
         <cmmndi:CMMNLabel />
       </cmmndi:CMMNShape>
       <cmmndi:CMMNEdge id="PlanItemOnPart_1nhof0c_di" cmmnElementRef="PlanItemOnPart_1nhof0c" targetCMMNElementRef="EntryCriterion_1chyu4l" isStandardEventVisible="true">
         <di:waypoint xsi:type="dc:Point" x="516" y="199" />
-        <di:waypoint xsi:type="dc:Point" x="570" y="199" />
+        <di:waypoint xsi:type="dc:Point" x="543" y="199" />
+        <di:waypoint xsi:type="dc:Point" x="543" y="200" />
+        <di:waypoint xsi:type="dc:Point" x="570" y="200" />
         <cmmndi:CMMNLabel>
           <dc:Bounds x="525" y="204" width="34" height="12" />
         </cmmndi:CMMNLabel>
@@ -172,11 +186,21 @@ caseExecution.setVariable("caseSuccessful", true);]]></camunda:script>
       </cmmndi:CMMNShape>
       <cmmndi:CMMNEdge id="PlanItemOnPart_0vs5eb1_di" cmmnElementRef="PlanItemOnPart_0vs5eb1" targetCMMNElementRef="ExitCriterion_07ha75l" isStandardEventVisible="true">
         <di:waypoint xsi:type="dc:Point" x="274" y="309" />
+        <di:waypoint xsi:type="dc:Point" x="306" y="309" />
+        <di:waypoint xsi:type="dc:Point" x="306" y="309" />
         <di:waypoint xsi:type="dc:Point" x="338" y="309" />
         <cmmndi:CMMNLabel>
-          <dc:Bounds x="281" y="299" width="50" height="12" />
+          <dc:Bounds x="282" y="311" width="50" height="12" />
         </cmmndi:CMMNLabel>
       </cmmndi:CMMNEdge>
+      <cmmndi:CMMNShape id="EntryCriterion_1nu7tbl_di" cmmnElementRef="EntryCriterion_1nu7tbl">
+        <dc:Bounds x="610" y="288" width="20" height="28" />
+        <cmmndi:CMMNLabel />
+      </cmmndi:CMMNShape>
+      <cmmndi:CMMNShape id="PlanItem_04x1kuu_di" cmmnElementRef="conditionalActivateHumanTask">
+        <dc:Bounds x="620" y="263" width="100" height="80" />
+        <cmmndi:CMMNLabel />
+      </cmmndi:CMMNShape>
     </cmmndi:CMMNDiagram>
   </cmmndi:CMMNDI>
 </cmmn:definitions>

@@ -30,7 +30,29 @@ Exit criterions mark the case as TERMINATED, but the process continues after the
 See [https://app.camunda.com/jira/browse/CAM-6087](https://app.camunda.com/jira/browse/CAM-6087) and the linked forum posts for further details.
 Workarounds: 
 	- Mark the stage with autoComplete.
-	- Terminate the other tasks with a task listener on manual task->complete. See [CompleteStageListener.java](src/main/java/com/camunda/consulting/bpmn_cmmn_example/CompleteStageListener.java) for details.
+	- Terminate the other tasks with a task listener on `complete` event. See [CompleteStageListener.java](src/main/java/com/camunda/consulting/bpmn_cmmn_example/CompleteStageListener.java) for details. 
+This task listener isn't able to terminate available tasks directly, they have to be in the state `active`. This is the error message:
+```
+ENGINE-05011 Could not perform transition 'terminate on case execution with id '419'.Reason: The case execution must be in state 'active' to terminate, but it was in state 'available'
+```
+Go for the autoComplete, here it works.
+
+3. Entry criterions can check if a variable has a certain value. But this variable has to be initialized (even empty) before, otherwise you will get a `Unknown property used in expression` exception. Workaround is to call the Java-API in the expression:
+```
+${caseExecution.hasVariable("customerValueChanged")}
+```
+
+4. If you want to use beans with certain evaluation logic in entry criterions, the most easy way to trigger the evaluation on a change in bean state, is to set a case variable and include it in the ifPart:
+```
+<cmmn:ifPart id="IfPart_1">
+    <cmmn:condition id="Expression_1"><![CDATA[${caseExecution.hasVariable("customerValueChanged") && customerValueBean.isValueHighEnough()}]]></cmmn:condition>
+</cmmn:ifPart>
+```
+The activation of the Condition activate task may look like this:
+```
+customerValueBean.setCustomerValue(1001);
+caseService().setVariable(caseInstance.getCaseInstanceId(), "customerValueChanged", true);
+```
 
 ## Show me the important parts!
 ![BPMN Process](src/main/resources/exampleCase.png)
