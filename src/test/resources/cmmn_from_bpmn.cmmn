@@ -1,0 +1,166 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<cmmn:definitions xmlns:dc="http://www.omg.org/spec/CMMN/20151109/DC" xmlns:di="http://www.omg.org/spec/CMMN/20151109/DI" xmlns:cmmndi="http://www.omg.org/spec/CMMN/20151109/CMMNDI" xmlns:cmmn="http://www.omg.org/spec/CMMN/20151109/MODEL" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:camunda="http://camunda.org/schema/1.0/cmmn" id="Test" targetNamespace="http://bpmn.io/schema/cmmn" exporter="Camunda Modeler" exporterVersion="1.11.2">
+  <cmmn:case id="cmmn_from_bpmn" name="CMMN from BPMN">
+    <cmmn:casePlanModel id="test_simple_case_plan_model" name="Simple Test Case Plan" autoComplete="false">
+      <cmmn:planItem id="Stage_outer" definitionRef="Stage_0js6x5s">
+        <cmmn:exitCriterion id="ExitCriterion_0cyr1kj" sentryRef="Sentry_19iejna" />
+      </cmmn:planItem>
+      <cmmn:sentry id="Sentry_19iejna">
+        <cmmn:planItemOnPart id="PlanItemOnPart_0dc4jy2" sourceRef="task_terminate_case">        <cmmn:standardEvent>complete</cmmn:standardEvent>
+</cmmn:planItemOnPart>
+      </cmmn:sentry>
+      <cmmn:stage id="Stage_0js6x5s" autoComplete="false">
+        <cmmn:planItem id="Stage_inner" definitionRef="Stage_1acj534">
+          <cmmn:entryCriterion id="EntryCriterion_1a28t7f" sentryRef="Sentry_0ndx56k" />
+        </cmmn:planItem>
+        <cmmn:planItem id="task_choose_weather" name="Let me know the weather" definitionRef="HumanTask_0q35wrz" />
+        <cmmn:planItem id="task_terminate_case" definitionRef="HumanTask_1716tuw">
+          <cmmn:itemControl id="PlanItemControl_138srr4">
+            <cmmn:manualActivationRule id="ManualActivationRule_1ctdzco" />
+          </cmmn:itemControl>
+        </cmmn:planItem>
+        <cmmn:sentry id="Sentry_0ndx56k">
+          <cmmn:planItemOnPart id="PlanItemOnPart_1p2zu8r" name="" sourceRef="task_choose_weather">          <cmmn:standardEvent>complete</cmmn:standardEvent>
+</cmmn:planItemOnPart>
+        </cmmn:sentry>
+        <cmmn:stage id="Stage_1acj534" autoComplete="true">
+          <cmmn:planItem id="task_buy_raincover" name="Buy Raincover" definitionRef="HumanTask_0tjc5w2">
+            <cmmn:entryCriterion id="EntryCriterion_0t4i5fe" sentryRef="Sentry_0gk5sr6" />
+          </cmmn:planItem>
+          <cmmn:planItem id="task_communication" definitionRef="HumanTask_0shlf2l">
+            <cmmn:itemControl id="PlanItemControl_1y6seie">
+              <cmmn:manualActivationRule id="ManualActivationRule_1hbaycn" />
+            </cmmn:itemControl>
+          </cmmn:planItem>
+          <cmmn:sentry id="Sentry_0gk5sr6">
+            <cmmn:ifPart id="IfPart_0ywfe2v">
+              <cmmn:condition id="Expression_0pd6j0f"><![CDATA[${processService.getField(execution, 'cmmn_select_weather', 'weather') == 'rain'}]]></cmmn:condition>
+            </cmmn:ifPart>
+          </cmmn:sentry>
+          <cmmn:humanTask id="HumanTask_0tjc5w2">
+            <cmmn:extensionElements>
+              <camunda:taskListener event="create" expression="${task.setVariableLocal(&#34;definition&#34;,&#34;cmmn_raincover&#34;)}" />
+              <camunda:taskListener event="create" expression="${task.setVariableLocal(&#34;scope&#34;,&#34;DOSSIER&#34;)}" />
+            </cmmn:extensionElements>
+          </cmmn:humanTask>
+          <cmmn:humanTask id="HumanTask_0shlf2l" name="Communication task">
+            <cmmn:extensionElements>
+              <camunda:taskListener event="create" expression="${task.setVariableLocal(&#34;communication.type&#34;, &#34;LETTER&#34;)}" />
+              <camunda:taskListener event="create" expression="${task.setVariableLocal(&#34;template.definition&#34;,&#34;ontvangstbevestiging&#34;)}" />
+              <camunda:taskListener event="create" expression="${task.setVariableLocal(&#34;communication.scope&#34;,&#34;DOSSIER&#34;)}" />
+            </cmmn:extensionElements>
+          </cmmn:humanTask>
+        </cmmn:stage>
+        <cmmn:humanTask id="HumanTask_0q35wrz">
+          <cmmn:extensionElements>
+            <camunda:taskListener event="create" expression="${task.setVariableLocal(&#34;definition&#34;,&#34;cmmn_select_weather&#34;)}" />
+            <camunda:taskListener event="create" expression="${task.setVariableLocal(&#34;scope&#34;,&#34;DOSSIER&#34;)}" />
+          </cmmn:extensionElements>
+        </cmmn:humanTask>
+        <cmmn:humanTask id="HumanTask_1716tuw" name="Should terminate the entire case">
+          <cmmn:extensionElements>
+            <camunda:caseExecutionListener event="complete" class="com.skryv.backend.bpm.tasks.ExitCriterionListener" />
+          </cmmn:extensionElements>
+        </cmmn:humanTask>
+      </cmmn:stage>
+    </cmmn:casePlanModel>
+  </cmmn:case>
+  <cmmn:association id="Association_0zog2z0" sourceRef="EntryCriterion_0t4i5fe" targetRef="TextAnnotation_0l5fjxs" />
+  <cmmn:association id="Association_0m0491q" sourceRef="task_communication" targetRef="TextAnnotation_100fydt" />
+  <cmmn:textAnnotation id="TextAnnotation_100fydt">  <cmmn:text>Only available in stage</cmmn:text>
+</cmmn:textAnnotation>
+  <cmmn:textAnnotation id="TextAnnotation_0l5fjxs">  <cmmn:text>Only activated in case of rainy weather</cmmn:text>
+</cmmn:textAnnotation>
+  <cmmn:textAnnotation id="TextAnnotation_1q6jc27">  <cmmn:text>ProcessService.get Field</cmmn:text>
+</cmmn:textAnnotation>
+  <cmmn:association id="Association_0xhpx2i" sourceRef="EntryCriterion_0t4i5fe" targetRef="TextAnnotation_1q6jc27" />
+  <cmmndi:CMMNDI>
+    <cmmndi:CMMNDiagram id="_5a66685b-5f57-4e2f-b1d1-acca4fae04b2" name="Buy Raincover">
+      <cmmndi:Size xsi:type="dc:Dimension" width="500" height="500" />
+      <cmmndi:CMMNShape id="DI_CasePlanModel_1" cmmnElementRef="test_simple_case_plan_model">
+        <dc:Bounds x="231" y="63" width="1023" height="602" />
+        <cmmndi:CMMNLabel />
+      </cmmndi:CMMNShape>
+      <cmmndi:CMMNShape id="PlanItem_1qudpdy_di" cmmnElementRef="Stage_inner">
+        <dc:Bounds x="562" y="154" width="403" height="332" />
+        <cmmndi:CMMNLabel />
+      </cmmndi:CMMNShape>
+      <cmmndi:CMMNShape id="TextAnnotation_0l5fjxs_di" cmmnElementRef="TextAnnotation_0l5fjxs">
+        <dc:Bounds x="599" y="167" width="97" height="58" />
+        <cmmndi:CMMNLabel />
+      </cmmndi:CMMNShape>
+      <cmmndi:CMMNShape id="EntryCriterion_0t4i5fe_di" cmmnElementRef="EntryCriterion_0t4i5fe">
+        <dc:Bounds x="622" y="273" width="20" height="28" />
+        <cmmndi:CMMNLabel />
+      </cmmndi:CMMNShape>
+      <cmmndi:CMMNEdge id="Association_0zog2z0_di" cmmnElementRef="Association_0zog2z0">
+        <di:waypoint xsi:type="dc:Point" x="632" y="273" />
+        <di:waypoint xsi:type="dc:Point" x="632" y="249" />
+        <di:waypoint xsi:type="dc:Point" x="647" y="249" />
+        <di:waypoint xsi:type="dc:Point" x="647" y="225" />
+        <cmmndi:CMMNLabel />
+      </cmmndi:CMMNEdge>
+      <cmmndi:CMMNShape id="EntryCriterion_1a28t7f_di" cmmnElementRef="EntryCriterion_1a28t7f">
+        <dc:Bounds x="552" y="302" width="20" height="28" />
+        <cmmndi:CMMNLabel />
+      </cmmndi:CMMNShape>
+      <cmmndi:CMMNShape id="PlanItem_0to8q61_di" cmmnElementRef="task_choose_weather">
+        <dc:Bounds x="383" y="276" width="100" height="80" />
+        <cmmndi:CMMNLabel />
+      </cmmndi:CMMNShape>
+      <cmmndi:CMMNEdge id="PlanItemOnPart_1p2zu8r_di" cmmnElementRef="PlanItemOnPart_1p2zu8r" targetCMMNElementRef="EntryCriterion_1a28t7f" isStandardEventVisible="true">
+        <di:waypoint xsi:type="dc:Point" x="483" y="316" />
+        <di:waypoint xsi:type="dc:Point" x="552" y="316" />
+        <cmmndi:CMMNLabel>
+          <dc:Bounds x="502" y="360" width="50" height="12" />
+        </cmmndi:CMMNLabel>
+      </cmmndi:CMMNEdge>
+      <cmmndi:CMMNShape id="PlanItem_132tu5e_di" cmmnElementRef="Stage_outer">
+        <dc:Bounds x="283" y="143" width="894" height="454" />
+        <cmmndi:CMMNLabel />
+      </cmmndi:CMMNShape>
+      <cmmndi:CMMNShape id="ExitCriterion_0cyr1kj_di" cmmnElementRef="ExitCriterion_0cyr1kj">
+        <dc:Bounds x="1167" y="497" width="20" height="28" />
+        <cmmndi:CMMNLabel />
+      </cmmndi:CMMNShape>
+      <cmmndi:CMMNEdge id="PlanItemOnPart_0dc4jy2_di" cmmnElementRef="PlanItemOnPart_0dc4jy2" targetCMMNElementRef="ExitCriterion_0cyr1kj" isStandardEventVisible="true">
+        <di:waypoint xsi:type="dc:Point" x="1100" y="511" />
+        <di:waypoint xsi:type="dc:Point" x="1167" y="511" />
+        <cmmndi:CMMNLabel>
+          <dc:Bounds x="1122" y="501" width="51" height="13" />
+        </cmmndi:CMMNLabel>
+      </cmmndi:CMMNEdge>
+      <cmmndi:CMMNShape id="PlanItem_1fbu2f4_di" cmmnElementRef="task_buy_raincover">
+        <dc:Bounds x="632" y="247" width="100" height="80" />
+        <cmmndi:CMMNLabel />
+      </cmmndi:CMMNShape>
+      <cmmndi:CMMNShape id="PlanItem_0n3noap_di" cmmnElementRef="task_communication">
+        <dc:Bounds x="816" y="356" width="100" height="80" />
+        <cmmndi:CMMNLabel />
+      </cmmndi:CMMNShape>
+      <cmmndi:CMMNShape id="TextAnnotation_100fydt_di" cmmnElementRef="TextAnnotation_100fydt">
+        <dc:Bounds x="672" y="369.8901472253681" width="100" height="30" />
+        <cmmndi:CMMNLabel />
+      </cmmndi:CMMNShape>
+      <cmmndi:CMMNEdge id="Association_0m0491q_di" cmmnElementRef="Association_0m0491q">
+        <di:waypoint xsi:type="dc:Point" x="816" y="385" />
+        <di:waypoint xsi:type="dc:Point" x="772" y="385" />
+        <cmmndi:CMMNLabel />
+      </cmmndi:CMMNEdge>
+      <cmmndi:CMMNShape id="PlanItem_1wqxtfm_di" cmmnElementRef="task_terminate_case">
+        <dc:Bounds x="1000" y="471" width="100" height="80" />
+        <cmmndi:CMMNLabel />
+      </cmmndi:CMMNShape>
+      <cmmndi:CMMNShape id="TextAnnotation_1q6jc27_di" cmmnElementRef="TextAnnotation_1q6jc27">
+        <dc:Bounds x="598" y="337" width="100" height="30" />
+        <cmmndi:CMMNLabel />
+      </cmmndi:CMMNShape>
+      <cmmndi:CMMNEdge id="Association_0xhpx2i_di" cmmnElementRef="Association_0xhpx2i">
+        <di:waypoint xsi:type="dc:Point" x="623" y="301" />
+        <di:waypoint xsi:type="dc:Point" x="611" y="320" />
+        <di:waypoint xsi:type="dc:Point" x="600" y="337" />
+        <cmmndi:CMMNLabel />
+      </cmmndi:CMMNEdge>
+    </cmmndi:CMMNDiagram>
+  </cmmndi:CMMNDI>
+</cmmn:definitions>

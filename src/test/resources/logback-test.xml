@@ -24,6 +24,10 @@
 -->  
 
   <logger name="org.camunda.bpm.engine.test" level="debug" />
+  <logger name="org.camunda.bpm.engine" level="debug" />
+  <logger name="org.camunda.bpm.engine.impl" level="info" />
+  <logger name="org.camunda.bpm.engine.persistence" level="info" />
+  <logger name="org.camunda.bpm.engine.cmmn.operation" level="debug" />
 
 <!--
   <logger name="org.camunda.bpm.engine.bpmn.parser" level="debug" />
@@ -31,7 +35,6 @@
 
   <logger name="org.camunda.bpm.engine.cmmn.transformer" level="debug" />
   <logger name="org.camunda.bpm.engine.cmmn.behavior" level="debug" />
-  <logger name="org.camunda.bpm.engine.cmmn.operation" level="debug" />
 
   <logger name="org.camunda.bpm.engine.cmd" level="debug" />
   <logger name="org.camunda.bpm.engine.persistence" level="debug" />

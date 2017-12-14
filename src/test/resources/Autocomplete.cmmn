@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<cmmn:definitions xmlns:dc="http://www.omg.org/spec/CMMN/20151109/DC" xmlns:di="http://www.omg.org/spec/CMMN/20151109/DI" xmlns:cmmndi="http://www.omg.org/spec/CMMN/20151109/CMMNDI" xmlns:cmmn="http://www.omg.org/spec/CMMN/20151109/MODEL" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" id="Test" targetNamespace="http://bpmn.io/schema/cmmn" exporter="Camunda Modeler" exporterVersion="1.9.0">
+  <cmmn:case id="AutoCompleteCase">
+    <cmmn:casePlanModel id="CasePlanModel_1" name="Case">
+      <cmmn:planItem id="autocompleteStage" name="Autocomplete" definitionRef="Stage_1jme9cy">
+        <cmmn:exitCriterion id="ExitCriterion_0lz1400" sentryRef="Sentry_0je3cpo" />
+      </cmmn:planItem>
+      <cmmn:sentry id="Sentry_0je3cpo">
+        <cmmn:planItemOnPart id="PlanItemOnPart_1rrdpkl" sourceRef="manualHumanTask">        <cmmn:standardEvent>complete</cmmn:standardEvent>
+</cmmn:planItemOnPart>
+      </cmmn:sentry>
+      <cmmn:stage id="Stage_1jme9cy" autoComplete="true">
+        <cmmn:planItem id="alwaysHumanTask" definitionRef="HumanTask_12o70yc" />
+        <cmmn:planItem id="conditionalHumanTask" definitionRef="HumanTask_0kah1yb">
+          <cmmn:entryCriterion id="EntryCriterion_0ukgaky" sentryRef="Sentry_0y9qj8v" />
+        </cmmn:planItem>
+        <cmmn:planItem id="manualHumanTask" definitionRef="HumanTask_1g40t7y">
+          <cmmn:itemControl id="PlanItemControl_14k7lpv">
+            <cmmn:manualActivationRule id="ManualActivationRule_1pcq71q" />
+          </cmmn:itemControl>
+        </cmmn:planItem>
+        <cmmn:sentry id="Sentry_0y9qj8v">
+          <cmmn:ifPart id="IfPart_1llq8lz">
+            <cmmn:condition id="Expression_1ddvd9v"><![CDATA[${caseExecution.hasVariable("myVar")}]]></cmmn:condition>
+          </cmmn:ifPart>
+        </cmmn:sentry>
+        <cmmn:humanTask id="HumanTask_12o70yc" name="Always" />
+        <cmmn:humanTask id="HumanTask_1g40t7y" name="Manual" />
+        <cmmn:humanTask id="HumanTask_0kah1yb" name="Conditional" />
+      </cmmn:stage>
+    </cmmn:casePlanModel>
+  </cmmn:case>
+  <cmmndi:CMMNDI>
+    <cmmndi:CMMNDiagram id="_5a66685b-5f57-4e2f-b1d1-acca4fae04b2">
+      <cmmndi:Size xsi:type="dc:Dimension" width="500" height="500" />
+      <cmmndi:CMMNShape id="DI_CasePlanModel_1" cmmnElementRef="CasePlanModel_1">
+        <dc:Bounds x="212" y="75" width="534" height="275" />
+        <cmmndi:CMMNLabel />
+      </cmmndi:CMMNShape>
+      <cmmndi:CMMNShape id="PlanItem_0ysso6y_di" cmmnElementRef="autocompleteStage">
+        <dc:Bounds x="244" y="86" width="330" height="245" />
+        <cmmndi:CMMNLabel />
+      </cmmndi:CMMNShape>
+      <cmmndi:CMMNShape id="PlanItem_1cbhvtm_di" cmmnElementRef="alwaysHumanTask">
+        <dc:Bounds x="270" y="118" width="100" height="80" />
+        <cmmndi:CMMNLabel />
+      </cmmndi:CMMNShape>
+      <cmmndi:CMMNShape id="PlanItem_1cd1gjl_di" cmmnElementRef="manualHumanTask">
+        <dc:Bounds x="404" y="118" width="100" height="80" />
+        <cmmndi:CMMNLabel />
+      </cmmndi:CMMNShape>
+      <cmmndi:CMMNShape id="EntryCriterion_0ukgaky_di" cmmnElementRef="EntryCriterion_0ukgaky">
+        <dc:Bounds x="260" y="250" width="20" height="28" />
+        <cmmndi:CMMNLabel />
+      </cmmndi:CMMNShape>
+      <cmmndi:CMMNShape id="PlanItem_04dtbhw_di" cmmnElementRef="conditionalHumanTask">
+        <dc:Bounds x="270" y="223" width="100" height="80" />
+        <cmmndi:CMMNLabel />
+      </cmmndi:CMMNShape>
+      <cmmndi:CMMNShape id="ExitCriterion_0lz1400_di" cmmnElementRef="ExitCriterion_0lz1400">
+        <dc:Bounds x="564" y="144" width="20" height="28" />
+        <cmmndi:CMMNLabel />
+      </cmmndi:CMMNShape>
+      <cmmndi:CMMNEdge id="PlanItemOnPart_1rrdpkl_di" cmmnElementRef="PlanItemOnPart_1rrdpkl" targetCMMNElementRef="ExitCriterion_0lz1400" isStandardEventVisible="true">
+        <di:waypoint xsi:type="dc:Point" x="504" y="158" />
+        <di:waypoint xsi:type="dc:Point" x="564" y="158" />
+        <cmmndi:CMMNLabel>
+          <dc:Bounds x="509" y="140" width="50" height="12" />
+        </cmmndi:CMMNLabel>
+      </cmmndi:CMMNEdge>
+    </cmmndi:CMMNDiagram>
+  </cmmndi:CMMNDI>
+</cmmn:definitions>
