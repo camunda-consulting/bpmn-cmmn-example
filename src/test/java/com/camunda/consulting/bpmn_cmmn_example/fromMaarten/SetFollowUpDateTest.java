@@ -35,7 +35,6 @@ public class SetFollowUpDateTest {
     
     caseService().completeCaseExecution(requestDocumentTask.getId());
     
-//    CaseExecution checkDocumentTask = caseExecution("check_documents_task", caseInstance);
     Task checkDocumentTask = taskQuery().taskDefinitionKey("check_documents_task").singleResult();
     assertThat(checkDocumentTask.getFollowUpDate()).isNotNull();
   }
