@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<cmmn:definitions xmlns:dc="http://www.omg.org/spec/CMMN/20151109/DC" xmlns:di="http://www.omg.org/spec/CMMN/20151109/DI" xmlns:cmmndi="http://www.omg.org/spec/CMMN/20151109/CMMNDI" xmlns:cmmn="http://www.omg.org/spec/CMMN/20151109/MODEL" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:camunda="http://camunda.org/schema/1.0/cmmn" id="Test" targetNamespace="http://bpmn.io/schema/cmmn" exporter="Camunda Modeler" exporterVersion="1.11.2">
+  <cmmn:case id="FollowUpDateCheckCase" name="Follow up date check">
+    <cmmn:casePlanModel id="CasePlanModel_1" name="Follow up date check">
+      <cmmn:planItem id="request_documents_task" definitionRef="request_documents_definition">
+        <cmmn:itemControl id="PlanItemControl_0cwzv0p">
+          <cmmn:repetitionRule id="RepetitionRule_04wlsnw" />
+          <cmmn:manualActivationRule id="ManualActivationRule_07up0x6" />
+        </cmmn:itemControl>
+      </cmmn:planItem>
+      <cmmn:planItem id="check_documents_task" definitionRef="check_documents_definition">
+        <cmmn:entryCriterion id="EntryCriterion_0y8mx7z" sentryRef="Sentry_0uavlrf" />
+      </cmmn:planItem>
+      <cmmn:sentry id="Sentry_0uavlrf" />
+      <cmmn:humanTask id="request_documents_definition" name="Request documents">
+        <cmmn:extensionElements>
+          <camunda:caseExecutionListener event="complete" class="com.camunda.consulting.bpmn_cmmn_example.fromMaarten.SetFollowUpDateOnAnotherTaskListener" />
+        </cmmn:extensionElements>
+      </cmmn:humanTask>
+      <cmmn:humanTask id="check_documents_definition" name="Check documents" />
+    </cmmn:casePlanModel>
+  </cmmn:case>
+  <cmmndi:CMMNDI>
+    <cmmndi:CMMNDiagram id="_5a66685b-5f57-4e2f-b1d1-acca4fae04b2">
+      <cmmndi:Size xsi:type="dc:Dimension" width="500" height="500" />
+      <cmmndi:CMMNShape id="DI_CasePlanModel_1" cmmnElementRef="CasePlanModel_1">
+        <dc:Bounds x="114" y="63" width="345" height="345" />
+        <cmmndi:CMMNLabel />
+      </cmmndi:CMMNShape>
+      <cmmndi:CMMNShape id="EntryCriterion_0y8mx7z_di" cmmnElementRef="EntryCriterion_0y8mx7z">
+        <dc:Bounds x="217" y="153" width="20" height="28" />
+        <cmmndi:CMMNLabel />
+      </cmmndi:CMMNShape>
+      <cmmndi:CMMNShape id="PlanItem_14a6gcp_di" cmmnElementRef="request_documents_task">
+        <dc:Bounds x="227" y="273" width="100" height="80" />
+        <cmmndi:CMMNLabel />
+      </cmmndi:CMMNShape>
+      <cmmndi:CMMNShape id="PlanItem_1kzbloz_di" cmmnElementRef="check_documents_task">
+        <dc:Bounds x="227" y="123" width="100" height="80" />
+        <cmmndi:CMMNLabel />
+      </cmmndi:CMMNShape>
+    </cmmndi:CMMNDiagram>
+  </cmmndi:CMMNDI>
+</cmmn:definitions>
