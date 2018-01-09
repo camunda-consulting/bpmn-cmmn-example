@@ -6,6 +6,7 @@ import java.util.Date;
 
 import org.camunda.bpm.engine.delegate.CaseExecutionListener;
 import org.camunda.bpm.engine.delegate.DelegateCaseExecution;
+import org.camunda.bpm.engine.impl.el.FixedValue;
 import org.camunda.bpm.engine.task.Task;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -13,6 +14,8 @@ import org.slf4j.LoggerFactory;
 public class SetFollowUpDateOnAnotherTaskListener implements CaseExecutionListener {
   
   private static final Logger LOGGER = LoggerFactory.getLogger(SetFollowUpDateOnAnotherTaskListener.class);
+  
+  private FixedValue numberOfDays;
 
   @Override
   public void notify(DelegateCaseExecution caseExecution) {
@@ -25,7 +28,7 @@ public class SetFollowUpDateOnAnotherTaskListener implements CaseExecutionListen
     
     LOGGER.info("found task {}", checkDocumentsTask.getId());
     
-    Date followUpDate = Date.from(Instant.now().plus(30, ChronoUnit.DAYS));
+    Date followUpDate = Date.from(Instant.now().plus(Long.valueOf((String) numberOfDays.getValue(caseExecution)), ChronoUnit.DAYS));
     
     LOGGER.info("set follow up date to {}", followUpDate);
     checkDocumentsTask.setFollowUpDate(followUpDate );

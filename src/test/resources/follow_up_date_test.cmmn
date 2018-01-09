@@ -14,10 +14,13 @@
       <cmmn:sentry id="Sentry_0uavlrf" />
       <cmmn:humanTask id="request_documents_definition" name="Request documents">
         <cmmn:extensionElements>
-          <camunda:caseExecutionListener event="complete" class="com.camunda.consulting.bpmn_cmmn_example.fromMaarten.SetFollowUpDateOnAnotherTaskListener" />
+          <camunda:caseExecutionListener event="complete" class="com.camunda.consulting.bpmn_cmmn_example.fromMaarten.SetFollowUpDateOnAnotherTaskListener">
+            <camunda:field name="numberOfDays">            <camunda:string>30</camunda:string>
+</camunda:field>
+          </camunda:caseExecutionListener>
         </cmmn:extensionElements>
       </cmmn:humanTask>
-      <cmmn:humanTask id="check_documents_definition" name="Check documents" />
+      <cmmn:humanTask id="check_documents_definition" name="Check documents" camunda:followUpDate="${dateVariable}" />
     </cmmn:casePlanModel>
   </cmmn:case>
   <cmmndi:CMMNDI>

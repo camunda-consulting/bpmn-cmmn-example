@@ -4,6 +4,10 @@ import static org.camunda.bpm.engine.test.assertions.bpmn.AbstractAssertions.*;
 import static org.camunda.bpm.engine.test.assertions.bpmn.BpmnAwareTests.*;
 import static org.camunda.bpm.engine.test.assertions.cmmn.CmmnAwareTests.*;
 
+import java.time.Instant;
+import java.time.temporal.ChronoUnit;
+import java.util.Date;
+
 import org.camunda.bpm.engine.runtime.CaseExecution;
 import org.camunda.bpm.engine.runtime.CaseInstance;
 import org.camunda.bpm.engine.task.Task;
@@ -26,17 +30,21 @@ public class SetFollowUpDateTest {
   @Test
   @Deployment(resources = "follow_up_date_test.cmmn")
   public void testSetFollowUpdate() {
-    CaseInstance caseInstance = caseService().createCaseInstanceByKey("FollowUpDateCheckCase");
+    CaseInstance caseInstance = caseService().createCaseInstanceByKey("FollowUpDateCheckCase", 
+        withVariables("dateVariable", new Date()));
     
     assertThat(caseInstance).isActive();
+    
+    Task checkDocumentTask = taskQuery().taskDefinitionKey("check_documents_task").singleResult();
+    assertThat(checkDocumentTask.getFollowUpDate()).isBefore(Date.from(Instant.now().plus(1, ChronoUnit.DAYS)));
     
     CaseExecution requestDocumentTask = caseExecution("request_documents_task", caseInstance);
     caseService().manuallyStartCaseExecution(requestDocumentTask.getId());
     
     caseService().completeCaseExecution(requestDocumentTask.getId());
     
-    Task checkDocumentTask = taskQuery().taskDefinitionKey("check_documents_task").singleResult();
-    assertThat(checkDocumentTask.getFollowUpDate()).isNotNull();
+    checkDocumentTask = taskQuery().taskDefinitionKey("check_documents_task").singleResult();
+    assertThat(checkDocumentTask.getFollowUpDate()).isAfter(Date.from(Instant.now().plus(29, ChronoUnit.DAYS)));
   }
 
 }
